@@ -4,6 +4,8 @@ const http = require("http");
 const cors = require("cors");
 import dbConnect from "./configs/db";
 import authAPI from "./apis/auth";
+import adminAPI from "./apis/admin";
+import rateAPI from "./apis/conversionRate";
 
 dotenv.config();
 const app = express();
@@ -19,6 +21,8 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(authAPI);
+app.use(adminAPI);
+app.use(rateAPI);
 
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {

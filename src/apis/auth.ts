@@ -9,6 +9,7 @@ router.post("/test_email", authCtl.testEmail);
 router.post("/signup", authCtl.signUp);
 router.get("/confirmation/:verificationToken", authCtl.verifyEmail);
 router.post("/login", authCtl.login);
+router.get("/user_data/:id", authCtl.getUserData);
 router.put("/update_user/:id", authCtl.updateUser);
 router.put("/update_password/:id", authCtl.updatePassword);
 router.get("/forgot_password", authCtl.forgotPassword);

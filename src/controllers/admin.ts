@@ -4,27 +4,17 @@ import dotenv from "dotenv";
 const _ = require("lodash");
 import sendEmail from "../services/email/sendEmail";
 
-import User from "../models/user";
+import Admin from "../models/admin";
 const bcrypt = require("bcrypt");
 
 dotenv.config();
 
-class AuthController {
-  testEmail(req: Request, res: Response) {
-    const { to, message } = req.body;
-    sendEmail({
-      to: to,
-      subject: "Email Confirmation",
-      message: message,
-    });
-    res.send("Done !!");
-  }
-
+class AdminController {
   signUp(req: Request, res: Response) {
-    User.find({ email: req.body.email })
+    Admin.find({ email: req.body.email })
       .exec()
-      .then((user) => {
-        if (user.length >= 1) {
+      .then((admin) => {
+        if (admin.length >= 1) {
           return res.status(409).json({
             message: "Email already exists",
           });
@@ -35,18 +25,16 @@ class AuthController {
                 error: err,
               });
             } else {
-              const user = new User({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
+              const admin = new Admin({
+                username: req.body.username,
                 email: req.body.email,
-                phoneNumber: req.body.phoneNumber,
                 password: hash,
               });
-              user
+              admin
                 .save()
                 .then((result) => {
                   res.status(201).json({
-                    message: "Successful. Please confirm your email to log in.",
+                    message: "Successful",
                   });
                 })
                 .catch((err) => {
@@ -54,90 +42,25 @@ class AuthController {
                     error: err,
                   });
                 });
-
-              const verificationToken: string = jwt.sign(
-                {
-                  user,
-                },
-                process.env.JWT_SECRET as string,
-                {
-                  expiresIn: "1d",
-                }
-              );
-
-              //   const url = `${process.env.SERVER_URL}/api/${process.env.API_VERSION}/auth/confirmation/${verificationToken}`;
-              const url = `${process.env.SERVER_URL}/confirmation/${verificationToken}`;
-
-              sendEmail({
-                to: user.email,
-                subject: "Email confirmation",
-                message: `Please click this link to confirm your email: <a href="${url}">${url}</a>`,
-              });
             }
           });
         }
-      });
-  }
-
-  verifyEmail(req: Request, res: Response) {
-    const decodedToken: any = jwt.verify(
-      req.params.verificationToken,
-      process.env.JWT_SECRET as string
-    );
-    User.findOne({ _id: decodedToken.user._id })
-      .exec()
-      .then((user) => {
-        const emailConfirmUpdate = {
-          confirm_email: true,
-        };
-
-        user = _.extend(user, emailConfirmUpdate);
-
-        if (user) {
-          user.save((err, result) => {
-            if (err) {
-              res.status(400).json({
-                message: "Email Verification Failed",
-                error: err,
-              });
-            } else {
-              return res
-                .status(200)
-                .send({ message: "Email Verification Success" });
-            }
-          });
-        } else {
-          res.status(400).json({
-            message: "Email Verification Failed",
-          });
-        }
-      })
-      .catch((err: any) => {
-        return res.status(500).json({
-          error: err,
-        });
       });
   }
 
   login(req: Request, res: Response) {
-    User.find({ email: req.body.email })
+    Admin.find({ email: req.body.email })
       .exec()
-      .then((user) => {
-        if (user.length < 1) {
+      .then((admin) => {
+        if (admin.length < 1) {
           return res.status(401).json({
             message: "Authentication Failed",
           });
         }
 
-        if (!user[0].confirm_email) {
-          return res.status(401).json({
-            message: "Please confirm email to login",
-          });
-        }
-
         bcrypt.compare(
           req.body.password,
-          user[0].password,
+          admin[0].password,
           (err: any, result: any) => {
             if (err) {
               return res.status(401).json({
@@ -147,8 +70,8 @@ class AuthController {
             if (result) {
               const token: string = jwt.sign(
                 {
-                  userId: user[0]._id,
-                  email: user[0].email,
+                  userId: admin[0]._id,
+                  email: admin[0].email,
                 },
                 process.env.JWT_SECRET as string,
                 {
@@ -173,11 +96,11 @@ class AuthController {
       });
   }
 
-  getUserData(req: Request, res: Response) {
-    User.findOne({ _id: req.params.id })
+  getAdminData(req: Request, res: Response) {
+    Admin.findOne({ _id: req.params.id })
       .exec()
-      .then((user) => {
-        return res.send(user);
+      .then((admin) => {
+        return res.send(admin);
       })
       .catch((err) => {
         return res.status(500).json({
@@ -187,20 +110,19 @@ class AuthController {
   }
 
   updateUser(req: Request, res: Response) {
-    User.findOne({ _id: req.params.id })
+    Admin.findOne({ _id: req.params.id })
       .exec()
-      .then((user) => {
+      .then((admin) => {
         const userUpdates = {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          phoneNumber: req.body.phoneNumber,
+          username: req.body.username,
+          password: req.body.password,
           email: req.body.email,
         };
 
-        user = _.extend(user, userUpdates);
+        admin = _.extend(admin, userUpdates);
 
-        if (user) {
-          user.save((err, result) => {
+        if (admin) {
+          admin.save((err, result) => {
             if (err) {
               return res.status(400).json({
                 message: "Invalid user",
@@ -233,13 +155,13 @@ class AuthController {
   }
 
   updatePassword(req: Request, res: Response) {
-    User.findOne({ _id: req.params.id })
+    Admin.findOne({ _id: req.params.id })
       .exec()
-      .then((user) => {
-        if (user) {
+      .then((admin) => {
+        if (admin) {
           const { currentPassword, newPassword } = req.body;
           bcrypt
-            .compare(currentPassword, user.password)
+            .compare(currentPassword, admin.password)
             .then((match: any) => {
               if (match) {
                 bcrypt.hash(newPassword, 10, (error: any, hash: any) => {
@@ -251,9 +173,9 @@ class AuthController {
                   const passwordUpdate = {
                     password: hash,
                   };
-                  user = _.extend(user, passwordUpdate);
-                  if (user) {
-                    user
+                  admin = _.extend(admin, passwordUpdate);
+                  if (admin) {
+                    admin
                       .save()
                       .then((result: any) => {
                         res.status(200).json({
@@ -288,13 +210,13 @@ class AuthController {
   }
 
   forgotPassword(req: Request, res: Response) {
-    User.findOne({ email: req.body.email })
+    Admin.findOne({ email: req.body.email })
       .exec()
-      .then((user: any) => {
-        if (user) {
+      .then((admin: any) => {
+        if (admin) {
           const resetToken: string = jwt.sign(
             {
-              user,
+              admin,
             },
             process.env.JWT_SECRET as string,
             {
@@ -302,10 +224,10 @@ class AuthController {
             }
           );
 
-          const url = `${process.env.SERVER_URL}/reset_password/${resetToken}`;
+          const url = `${process.env.SERVER_URL}/reset_admin_password/${resetToken}`;
 
           sendEmail({
-            to: user.email,
+            to: admin.email,
             subject: "Reset Password",
             message: `Click this link to reset your password: <a href="${url}">${url}</a>`,
           });
@@ -322,10 +244,10 @@ class AuthController {
       req.params.resetToken,
       process.env.JWT_SECRET as string
     );
-    User.findOne({ _id: decodedToken.user._id })
+    Admin.findOne({ _id: decodedToken.user._id })
       .exec()
-      .then((user) => {
-        if (user) {
+      .then((admin) => {
+        if (admin) {
           const { newPassword } = req.body;
           bcrypt.hash(newPassword, 10, (error: any, hash: any) => {
             if (error) {
@@ -336,9 +258,9 @@ class AuthController {
             const passwordUpdate = {
               password: hash,
             };
-            user = _.extend(user, passwordUpdate);
-            if (user) {
-              user
+            admin = _.extend(admin, passwordUpdate);
+            if (admin) {
+              admin
                 .save()
                 .then((result: any) => {
                   res.status(200).json({
@@ -360,22 +282,6 @@ class AuthController {
         });
       });
   }
-
-  deleteone(req: Request, res: Response) {
-    User.deleteOne({ _id: req.params.id })
-      .exec()
-      .then((result) => {
-        res.status(200).json({
-          message: "User Deleted",
-          result: result,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          error: err,
-        });
-      });
-  }
 }
 
-export default AuthController;
+export default AdminController;
