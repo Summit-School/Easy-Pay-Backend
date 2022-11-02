@@ -186,6 +186,19 @@ class AuthController {
       });
   }
 
+  getAllUsers(req: Request, res: Response) {
+    User.find()
+      .exec()
+      .then((users) => {
+        return res.send(users);
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          message: err,
+        });
+      });
+  }
+
   updateUser(req: Request, res: Response) {
     User.findOne({ _id: req.params.id })
       .exec()
