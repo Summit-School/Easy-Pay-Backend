@@ -7,6 +7,7 @@ import authAPI from "./apis/auth";
 import adminAPI from "./apis/admin";
 import rateAPI from "./apis/conversionRate";
 import popupMessageAPI from "./apis/popup_message";
+import conversationAPI from "./apis/conversation";
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ app.use(authAPI);
 app.use(adminAPI);
 app.use(rateAPI);
 app.use(popupMessageAPI);
+app.use(conversationAPI);
 
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {
