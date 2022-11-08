@@ -6,38 +6,31 @@ import Message from "../models/message";
 dotenv.config();
 
 class MessageController {
-  createPopupMessage(req: Request, res: Response) {
-    PopupMessage.find()
-      .exec()
-      .then((response) => {
-        if (response.length >= 1) {
-          return res.status(500).json({
-            message: "Popup message already exists",
-          });
-        } else {
-          const newMessage = new PopupMessage({
-            message: req.body.message,
-          });
+  async createMessage(req: Request, res: Response) {
+    const newMessage = new Message(req.body);
 
-          newMessage
-            .save()
-            .then((result) => {
-              res.status(201).json({
-                message: "Popup message created successfully",
-              });
-            })
-            .catch((err) => {
-              res.status(500).json({
-                error: err,
-              });
-            });
-        }
-      })
-      .catch((err: any) => {
-        return res.status(500).json({
-          message: "Update Failed",
-        });
+    try {
+      const savedMessage = await newMessage.save();
+      res.status(200).json(savedMessage);
+    } catch (error) {
+      res.status(500).json({
+        error: error,
       });
+    }
+  }
+
+  async getMessage(req: Request, res: Response) {
+    try {
+      const massages = await Message.find({
+        conversationId: req.params.conversationId,
+      });
+
+      res.status(200).send(massages);
+    } catch (error) {
+      res.status(500).json({
+        error: error,
+      });
+    }
   }
 }
 

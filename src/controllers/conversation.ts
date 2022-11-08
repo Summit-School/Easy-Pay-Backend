@@ -20,6 +20,19 @@ class ConversationController {
       });
     }
   }
+
+  async getConversation(req: Request, res: Response) {
+    try {
+      const conversation = await Conversation.find({
+        members: { $in: [req.params.userId] },
+      });
+      res.status(200).json(conversation);
+    } catch (error) {
+      res.status(500).json({
+        error: error,
+      });
+    }
+  }
 }
 
 export default ConversationController;
