@@ -20,13 +20,72 @@ class AuthController {
     res.send("Done !!");
   }
 
+  // signUp(req: Request, res: Response) {
+  //   User.find({ email: req.body.email })
+  //     .exec()
+  //     .then((user) => {
+  //       if (user.length >= 1) {
+  //         return res.status(409).json({
+  //           message: "Email already exists",
+  //         });
+  //       } else {
+  //         bcrypt.hash(req.body.password, 10, (err: any, hash: any) => {
+  //           if (err) {
+  //             return res.status(500).json({
+  //               error: err,
+  //             });
+  //           } else {
+  //             const user = new User({
+  //               firstName: req.body.firstName,
+  //               lastName: req.body.lastName,
+  //               email: req.body.email,
+  //               phoneNumber: req.body.phoneNumber,
+  //               password: hash,
+  //             });
+  //             user
+  //               .save()
+  //               .then((result) => {
+  //                 res.status(201).json({
+  //                   message: "Successful. Please confirm your email to log in.",
+  //                 });
+  //               })
+  //               .catch((err) => {
+  //                 res.status(500).json({
+  //                   error: err,
+  //                 });
+  //               });
+
+  //             const verificationToken: string = jwt.sign(
+  //               {
+  //                 user,
+  //               },
+  //               process.env.JWT_SECRET as string,
+  //               {
+  //                 expiresIn: "1d",
+  //               }
+  //             );
+
+  //             //   const url = `${process.env.SERVER_URL}/api/${process.env.API_VERSION}/auth/confirmation/${verificationToken}`;
+  //             const url = `${process.env.SERVER_URL}/confirmation/${verificationToken}`;
+
+  //             sendEmail({
+  //               to: user.email,
+  //               subject: "Email confirmation",
+  //               message: `Please click this link to confirm your email: <a href="${url}">${url}</a>`,
+  //             });
+  //           }
+  //         });
+  //       }
+  //     });
+  // }
+
   signUp(req: Request, res: Response) {
-    User.find({ email: req.body.email })
+    User.find({ phoneNumber: req.body.phoneNumber })
       .exec()
       .then((user) => {
         if (user.length >= 1) {
           return res.status(409).json({
-            message: "Email already exists",
+            message: "User already exists",
           });
         } else {
           bcrypt.hash(req.body.password, 10, (err: any, hash: any) => {
@@ -36,9 +95,7 @@ class AuthController {
               });
             } else {
               const user = new User({
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
+                username: req.body.username,
                 phoneNumber: req.body.phoneNumber,
                 password: hash,
               });
@@ -46,7 +103,7 @@ class AuthController {
                 .save()
                 .then((result) => {
                   res.status(201).json({
-                    message: "Successful. Please confirm your email to log in.",
+                    message: "Account created",
                   });
                 })
                 .catch((err) => {
@@ -54,25 +111,6 @@ class AuthController {
                     error: err,
                   });
                 });
-
-              const verificationToken: string = jwt.sign(
-                {
-                  user,
-                },
-                process.env.JWT_SECRET as string,
-                {
-                  expiresIn: "1d",
-                }
-              );
-
-              //   const url = `${process.env.SERVER_URL}/api/${process.env.API_VERSION}/auth/confirmation/${verificationToken}`;
-              const url = `${process.env.SERVER_URL}/confirmation/${verificationToken}`;
-
-              sendEmail({
-                to: user.email,
-                subject: "Email confirmation",
-                message: `Please click this link to confirm your email: <a href="${url}">${url}</a>`,
-              });
             }
           });
         }
@@ -119,19 +157,67 @@ class AuthController {
       });
   }
 
+  // login(req: Request, res: Response) {
+  //   User.find({ email: req.body.email })
+  //     .exec()
+  //     .then((user) => {
+  //       if (user.length < 1) {
+  //         return res.status(401).json({
+  //           message: "Authentication Failed",
+  //         });
+  //       }
+
+  //       if (!user[0].confirm_email) {
+  //         return res.status(401).json({
+  //           message: "Please confirm email to login",
+  //         });
+  //       }
+
+  //       bcrypt.compare(
+  //         req.body.password,
+  //         user[0].password,
+  //         (err: any, result: any) => {
+  //           if (err) {
+  //             return res.status(401).json({
+  //               message: "Authentication Failed",
+  //             });
+  //           }
+  //           if (result) {
+  //             const token: string = jwt.sign(
+  //               {
+  //                 userId: user[0]._id,
+  //                 email: user[0].email,
+  //               },
+  //               process.env.JWT_SECRET as string,
+  //               {
+  //                 expiresIn: "1d",
+  //               }
+  //             );
+  //             return res.status(200).json({
+  //               message: "Login Successful",
+  //               token: token,
+  //             });
+  //           }
+  //           res.status(401).json({
+  //             message: "Authentication Failed",
+  //           });
+  //         }
+  //       );
+  //     })
+  //     .catch((err) => {
+  //       res.status(500).json({
+  //         error: err,
+  //       });
+  //     });
+  // }
+
   login(req: Request, res: Response) {
-    User.find({ email: req.body.email })
+    User.find({ phoneNumber: req.body.phoneNumber })
       .exec()
       .then((user) => {
         if (user.length < 1) {
           return res.status(401).json({
             message: "Authentication Failed",
-          });
-        }
-
-        if (!user[0].confirm_email) {
-          return res.status(401).json({
-            message: "Please confirm email to login",
           });
         }
 
@@ -148,7 +234,7 @@ class AuthController {
               const token: string = jwt.sign(
                 {
                   userId: user[0]._id,
-                  email: user[0].email,
+                  username: user[0].username,
                 },
                 process.env.JWT_SECRET as string,
                 {
@@ -199,15 +285,59 @@ class AuthController {
       });
   }
 
+  // updateUser(req: Request, res: Response) {
+  //   User.findOne({ _id: req.params.id })
+  //     .exec()
+  //     .then((user) => {
+  //       const userUpdates = {
+  //         firstName: req.body.firstName,
+  //         lastName: req.body.lastName,
+  //         phoneNumber: req.body.phoneNumber,
+  //         email: req.body.email,
+  //       };
+
+  //       user = _.extend(user, userUpdates);
+
+  //       if (user) {
+  //         user.save((err, result) => {
+  //           if (err) {
+  //             return res.status(400).json({
+  //               message: "Invalid user",
+  //               error: err,
+  //             });
+  //           } else {
+  //             const token: string = jwt.sign(
+  //               {
+  //                 userId: req.params.id,
+  //                 email: req.body.email,
+  //               },
+  //               process.env.JWT_SECRET as string,
+  //               {
+  //                 expiresIn: "1d",
+  //               }
+  //             );
+  //             return res.status(200).json({
+  //               message: "Update Successful",
+  //               token: token,
+  //             });
+  //           }
+  //         });
+  //       }
+  //     })
+  //     .catch((err: any) => {
+  //       return res.status(500).json({
+  //         message: "Update Failed",
+  //       });
+  //     });
+  // }
+
   updateUser(req: Request, res: Response) {
     User.findOne({ _id: req.params.id })
       .exec()
       .then((user) => {
         const userUpdates = {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
+          username: req.body.username,
           phoneNumber: req.body.phoneNumber,
-          email: req.body.email,
         };
 
         user = _.extend(user, userUpdates);
@@ -223,7 +353,7 @@ class AuthController {
               const token: string = jwt.sign(
                 {
                   userId: req.params.id,
-                  email: req.body.email,
+                  username: req.body.username,
                 },
                 process.env.JWT_SECRET as string,
                 {
