@@ -29,7 +29,7 @@ app.use(`/api/${process.env.API_VERSION}/admin`, adminAPI);
 app.use(`/api/${process.env.API_VERSION}/conversionRate`, rateAPI);
 app.use(`/api/${process.env.API_VERSION}/conversation`, conversationAPI);
 app.use(`/api/${process.env.API_VERSION}/message`, messageAPI);
-app.use(`/api/${process.env.API_VERSION}/popupMessage`, popupMessageAPI
+app.use(`/api/${process.env.API_VERSION}/popupMessage`, popupMessageAPI);
 
 // app.use(authAPI);
 // app.use(adminAPI);
