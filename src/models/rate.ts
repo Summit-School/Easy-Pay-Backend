@@ -4,7 +4,6 @@ const rateSchema = new mongoose.Schema(
   {
     cfa: {
       type: Number,
-      default: 0,
     },
   },
   {
