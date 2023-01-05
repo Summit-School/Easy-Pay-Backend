@@ -23,12 +23,20 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(authAPI);
-app.use(adminAPI);
-app.use(rateAPI);
-app.use(popupMessageAPI);
-app.use(conversationAPI);
-app.use(messageAPI);
+
+app.use(`/api/${process.env.API_VERSION}/auth`, authAPI);
+app.use(`/api/${process.env.API_VERSION}/admin`, adminAPI);
+app.use(`/api/${process.env.API_VERSION}/conversionRate`, rateAPI);
+app.use(`/api/${process.env.API_VERSION}/conversation`, conversationAPI);
+app.use(`/api/${process.env.API_VERSION}/message`, messageAPI);
+app.use(`/api/${process.env.API_VERSION}/popupMessage`, popupMessageAPI
+
+// app.use(authAPI);
+// app.use(adminAPI);
+// app.use(rateAPI);
+// app.use(popupMessageAPI);
+// app.use(conversationAPI);
+// app.use(messageAPI);
 
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {
