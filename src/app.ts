@@ -2,6 +2,8 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 const http = require("http");
 const cors = require("cors");
+import bodyParser = require("body-parser");
+
 import dbConnect from "./configs/db";
 import authAPI from "./apis/auth";
 import adminAPI from "./apis/admin";
@@ -9,6 +11,7 @@ import rateAPI from "./apis/conversionRate";
 import popupMessageAPI from "./apis/popup_message";
 import conversationAPI from "./apis/conversation";
 import messageAPI from "./apis/message";
+import transactionAPI from "./apis/transactions";
 
 dotenv.config();
 const app = express();
@@ -23,6 +26,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use("/uploads", express.static("uploads"));
 
 app.use(`/api/${process.env.API_VERSION}/auth`, authAPI);
 app.use(`/api/${process.env.API_VERSION}/admin`, adminAPI);
@@ -30,13 +35,15 @@ app.use(`/api/${process.env.API_VERSION}/conversionRate`, rateAPI);
 app.use(`/api/${process.env.API_VERSION}/conversation`, conversationAPI);
 app.use(`/api/${process.env.API_VERSION}/message`, messageAPI);
 app.use(`/api/${process.env.API_VERSION}/popupMessage`, popupMessageAPI);
+app.use(`/api/${process.env.API_VERSION}/transactions`, transactionAPI);
 
-// app.use(authAPI);
-// app.use(adminAPI);
-// app.use(rateAPI);
-// app.use(popupMessageAPI);
-// app.use(conversationAPI);
-// app.use(messageAPI);
+app.use(authAPI);
+app.use(adminAPI);
+app.use(rateAPI);
+app.use(popupMessageAPI);
+app.use(conversationAPI);
+app.use(messageAPI);
+app.use(transactionAPI);
 
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {
