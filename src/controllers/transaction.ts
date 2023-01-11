@@ -21,7 +21,7 @@ class TransactionController {
       try {
         // const savedTransaction = await newTransaction.save();
         // res.status(200).json(savedTransaction);
-        res.send(200).json(newTransaction);
+        res.send(newTransaction);
       } catch (error) {
         res.status(500).json({
           error: error,
