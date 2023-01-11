@@ -7,13 +7,15 @@ const multer = require("multer");
 
 class TransactionController {
   async createTransaction(req: Request, res: Response) {
-    let shot = req.file;
+    // let shot = req.file;
     if (shot) {
       const newTransaction = new Transaction({
+        userId: req.body.userId,
         username: req.body.username,
         phoneNumber: req.body.phoneNumber,
         amount: req.body.amount,
-        screenshot: shot.path,
+        screenshot: req.body.screenshot,
+        // screenshot: shot.path,
       });
 
       try {
@@ -36,6 +38,19 @@ class TransactionController {
         error: error,
       });
     }
+  }
+
+  getUserTransactions(req: Request, res: Response) {
+    Transaction.find({ userId: req.params.id })
+      .exec()
+      .then((txns) => {
+        return res.send(txns);
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          message: err,
+        });
+      });
   }
 
   async changeStatus(req: Request, res: Response) {
