@@ -38,6 +38,7 @@ router.post(
   txnCtl.createTransaction
 );
 router.get("/get_all_transactions", txnCtl.getAllTransactions);
+router.get("/get_user_transactions/:id", txnCtl.getUserTransactions);
 router.put("/update_txn_state/:id", txnCtl.changeStatus);
 
 export default router;
