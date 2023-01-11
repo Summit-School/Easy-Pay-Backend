@@ -15,7 +15,7 @@ class TransactionController {
         phoneNumber: req.body.phoneNumber,
         amount: req.body.amount,
         // screenshot: req.body.screenshot,
-        screenshot: shot.path,
+        screenshot: shot,
       });
 
       try {
@@ -28,6 +28,7 @@ class TransactionController {
         });
       }
     }
+    res.send(200).json({ error: "file not found" });
   }
 
   async getAllTransactions(req: Request, res: Response) {
