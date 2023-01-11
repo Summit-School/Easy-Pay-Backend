@@ -7,26 +7,26 @@ const multer = require("multer");
 
 class TransactionController {
   async createTransaction(req: Request, res: Response) {
-    // let shot = req.file;
-    // if (shot) {
-    const newTransaction = new Transaction({
-      userId: req.body.userId,
-      username: req.body.username,
-      phoneNumber: req.body.phoneNumber,
-      amount: req.body.amount,
-      screenshot: req.body.screenshot,
-      // screenshot: shot.path,
-    });
-
-    try {
-      const savedTransaction = await newTransaction.save();
-      res.status(200).json(savedTransaction);
-    } catch (error) {
-      res.status(500).json({
-        error: error,
+    let shot = req.file;
+    if (shot) {
+      const newTransaction = new Transaction({
+        userId: req.body.userId,
+        username: req.body.username,
+        phoneNumber: req.body.phoneNumber,
+        amount: req.body.amount,
+        // screenshot: req.body.screenshot,
+        screenshot: shot.path,
       });
+
+      try {
+        const savedTransaction = await newTransaction.save();
+        res.status(200).json(savedTransaction);
+      } catch (error) {
+        res.status(500).json({
+          error: error,
+        });
+      }
     }
-    // }
   }
 
   async getAllTransactions(req: Request, res: Response) {
