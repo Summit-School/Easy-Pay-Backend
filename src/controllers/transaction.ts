@@ -9,19 +9,21 @@ class TransactionController {
   async createTransaction(req: Request, res: Response) {
     let shot = req.file;
     if (shot) {
-      const newTransaction = new Transaction({
-        userId: req.body.userId,
-        username: req.body.username,
-        phoneNumber: req.body.phoneNumber,
-        amount: req.body.amount,
-        // screenshot: req.body.screenshot,
-        screenshot: shot,
-      });
+      // const newTransaction = new Transaction({
+      //   userId: req.body.userId,
+      //   username: req.body.username,
+      //   phoneNumber: req.body.phoneNumber,
+      //   amount: req.body.amount,
+      //   // screenshot: req.body.screenshot,
+      //   screenshot: shot,
+      // });
 
       try {
         // const savedTransaction = await newTransaction.save();
         // res.status(200).json(savedTransaction);
-        return res.status(200).json({ transaction: newTransaction });
+        console.log(req.file); // File which is uploaded in /uploads folder.
+        console.log(req.body); // Body
+        res.send({ congrats: "data recieved" });
       } catch (error) {
         res.status(500).json({
           error: error,
