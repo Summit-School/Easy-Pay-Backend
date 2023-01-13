@@ -43,7 +43,7 @@ app.use(rateAPI);
 app.use(popupMessageAPI);
 app.use(conversationAPI);
 app.use(messageAPI);
-app.use("/api", transactionAPI);
+app.use(transactionAPI);
 
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {

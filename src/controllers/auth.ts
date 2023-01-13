@@ -274,6 +274,7 @@ class AuthController {
 
   getAllUsers(req: Request, res: Response) {
     User.find()
+      .sort({ createdAt: -1 })
       .exec()
       .then((users) => {
         return res.send(users);

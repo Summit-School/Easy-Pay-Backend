@@ -6,6 +6,6 @@ const router: Router = express.Router();
 const messageCtl: any = new MessageController();
 
 router.post("/messages", messageCtl.createMessage);
-router.get("/messages/:conversationId", messageCtl.getMessage);
+router.get("/messages/:id", messageCtl.getMessage);
 
 export default router;

@@ -7,7 +7,10 @@ dotenv.config();
 
 class MessageController {
   async createMessage(req: Request, res: Response) {
-    const newMessage = new Message(req.body);
+    const newMessage = new Message({
+      message: [req.body.sender, req.body.receiver],
+      text: req.body.text,
+    });
 
     try {
       const savedMessage = await newMessage.save();
@@ -22,7 +25,7 @@ class MessageController {
   async getMessage(req: Request, res: Response) {
     try {
       const massages = await Message.find({
-        conversationId: req.params.conversationId,
+        message: { $in: [req.params.id] },
       });
 
       res.status(200).send(massages);
