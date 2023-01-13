@@ -33,7 +33,7 @@ class TransactionController {
 
   async getAllTransactions(req: Request, res: Response) {
     try {
-      const transactions = await Transaction.find();
+      const transactions = await Transaction.find().sort({ createdAt: -1 });
       return res.status(200).json(transactions);
     } catch (error) {
       res.status(500).json({
@@ -44,6 +44,7 @@ class TransactionController {
 
   getUserTransactions(req: Request, res: Response) {
     Transaction.find({ userId: req.params.id })
+      .sort({ createdAt: -1 })
       .exec()
       .then((txns) => {
         return res.send(txns);
