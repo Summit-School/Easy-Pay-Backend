@@ -498,6 +498,7 @@ class AuthController {
           if (user._id == decodedToken.user._id) {
             return res.status(200).json({
               message: "Success",
+              token: token,
             });
           } else {
             return res.status(500).json({
