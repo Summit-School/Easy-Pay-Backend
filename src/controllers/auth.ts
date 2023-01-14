@@ -103,8 +103,19 @@ class AuthController {
               user
                 .save()
                 .then((result) => {
+                  const token: string = jwt.sign(
+                    {
+                      userId: result._id,
+                      username: result.username,
+                    },
+                    process.env.JWT_SECRET as string,
+                    {
+                      expiresIn: "1d",
+                    }
+                  );
                   res.status(201).json({
                     message: "Account created",
+                    token: token,
                   });
                 })
                 .catch((err) => {
