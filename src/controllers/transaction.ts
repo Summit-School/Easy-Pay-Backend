@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
+const _ = require("lodash");
 import Transaction from "../models/transactions";
+import User from "../models/user";
 dotenv.config();
 
 const multer = require("multer");
@@ -17,11 +19,39 @@ class TransactionController {
         screenshot: shot.path,
       });
 
-      console.log(newTransaction);
-
       try {
         const savedTransaction = await newTransaction.save();
-        res.status(200).json(savedTransaction);
+        // res.status(200).json(savedTransaction);
+        User.findOne({ _id: req.body.userId })
+          .exec()
+          .then((user) => {
+            if (user) {
+              let temp = user.numberOfTxn;
+              const updateTxn = {
+                numberOfTxn: temp + 1,
+              };
+              user = _.extend(user, updateTxn);
+              if (user) {
+                user.save((err, result) => {
+                  if (err) {
+                    return res.status(400).json({
+                      message: "Invalid user",
+                      error: err,
+                    });
+                  } else {
+                    return res.status(200).json({
+                      message: "Transaction Successful",
+                    });
+                  }
+                });
+              }
+            }
+          })
+          .catch((err) => {
+            return res.status(500).json({
+              message: err,
+            });
+          });
       } catch (error) {
         res.status(500).json({
           error: error,
