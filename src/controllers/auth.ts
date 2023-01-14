@@ -450,7 +450,8 @@ class AuthController {
         if (user) {
           const resetToken: string = jwt.sign(
             {
-              user,
+              userId: user._id,
+              username: user.username,
             },
             process.env.JWT_SECRET as string,
             {
@@ -493,11 +494,11 @@ class AuthController {
       token,
       process.env.JWT_SECRET as string
     );
-    User.findOne({ _id: decodedToken.user._id })
+    User.findOne({ _id: decodedToken.userId })
       .exec()
       .then((user) => {
         if (user) {
-          if (user._id == decodedToken.user._id) {
+          if (user._id == decodedToken.userId) {
             return res.status(200).json({
               message: "Success",
               token: token,
