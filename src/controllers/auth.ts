@@ -110,7 +110,7 @@ class AuthController {
                     },
                     process.env.JWT_SECRET as string,
                     {
-                      expiresIn: "1d",
+                      expiresIn: "1h",
                     }
                   );
                   res.status(201).json({
@@ -250,7 +250,7 @@ class AuthController {
                 },
                 process.env.JWT_SECRET as string,
                 {
-                  expiresIn: "1d",
+                  expiresIn: "1h",
                 }
               );
               return res.status(200).json({
