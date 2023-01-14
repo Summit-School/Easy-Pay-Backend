@@ -502,11 +502,10 @@ class AuthController {
               message: "Success",
               token: token,
             });
-          } else {
-            return res.status(500).json({
-              message: "Failed to reset password",
-            });
           }
+          return res.status(500).json({
+            message: "Failed to reset password",
+          });
         }
       })
       .catch((err: any) => {
