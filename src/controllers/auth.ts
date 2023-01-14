@@ -476,7 +476,9 @@ class AuthController {
             `,
           });
 
-          return;
+          return res.status(200).json({
+            message: "Email sent",
+          });
         } else {
           return res.status(500).json({
             message: "Email does not exist",
