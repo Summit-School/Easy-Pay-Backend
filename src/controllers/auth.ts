@@ -458,13 +458,25 @@ class AuthController {
             }
           );
 
-          const url = `${process.env.SERVER_URL}/reset_password/${resetToken}`;
+          const token = `${resetToken}`;
+          const username = `${user.username}`;
 
           sendEmail({
             to: user.email,
             subject: "Reset Password",
-            message: `Click this link to reset your password: <a href="${url}">${url}</a>`,
+            message: `
+            <div>
+            Hello ${username}, 
+            Copy this token below and submit in the token field to get back into your account. 
+            Don't forget to update your password after this.
+            </div>             
+            <div style="margin-top: 20px">
+            Token: <span style="color:blue">${token}</span>
+            </div>
+            `,
           });
+
+          return;
         } else {
           return res.status(500).json({
             message: "Email does not exist",
@@ -474,40 +486,24 @@ class AuthController {
   }
 
   resetPassword(req: Request, res: Response) {
+    const token = req.body.resetToken;
     const decodedToken: any = jwt.verify(
-      req.params.resetToken,
+      token,
       process.env.JWT_SECRET as string
     );
     User.findOne({ _id: decodedToken.user._id })
       .exec()
       .then((user) => {
         if (user) {
-          const { newPassword } = req.body;
-          bcrypt.hash(newPassword, 10, (error: any, hash: any) => {
-            if (error) {
-              return res.status(500).json({
-                error: error,
-              });
-            }
-            const passwordUpdate = {
-              password: hash,
-            };
-            user = _.extend(user, passwordUpdate);
-            if (user) {
-              user
-                .save()
-                .then((result: any) => {
-                  res.status(200).json({
-                    message: "Password Updated",
-                  });
-                })
-                .catch((error: any) => {
-                  res.status(500).json({
-                    error: error,
-                  });
-                });
-            }
-          });
+          if (user._id == decodedToken.user._id) {
+            return res.status(200).json({
+              message: "Success",
+            });
+          } else {
+            return res.status(500).json({
+              message: "Failed to reset password",
+            });
+          }
         }
       })
       .catch((err: any) => {

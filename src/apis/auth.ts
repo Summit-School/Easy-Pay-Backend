@@ -14,7 +14,7 @@ router.get("/get_all_users", authCtl.getAllUsers);
 router.put("/update_user/:id", authCtl.updateUser);
 router.put("/update_password/:id", authCtl.updatePassword);
 router.get("/forgot_password", authCtl.forgotPassword);
-router.put("/reset_password/:resetToken", authCtl.resetPassword);
+router.post("/reset_password", authCtl.resetPassword);
 router.delete("/delete_user/:id", authCtl.deleteone);
 
 export default router;
