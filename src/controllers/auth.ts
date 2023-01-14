@@ -97,6 +97,7 @@ class AuthController {
               const user = new User({
                 username: req.body.username,
                 phoneNumber: req.body.phoneNumber,
+                email: req.body.email,
                 password: hash,
               });
               user
