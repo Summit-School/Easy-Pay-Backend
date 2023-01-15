@@ -351,6 +351,7 @@ class AuthController {
         const userUpdates = {
           username: req.body.username,
           phoneNumber: req.body.phoneNumber,
+          email: req.body.email,
         };
 
         user = _.extend(user, userUpdates);
