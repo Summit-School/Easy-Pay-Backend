@@ -78,11 +78,11 @@ export default function email(subject: string, message: string) {
       <div class="logo">
         <a
           style="width: 100%"
-          href="https://lh4.googleusercontent.com/8PWyctVQU5RSLFyLYN6zIfMinxgg57OVYb2sz34OUoCPz6w_GxoLtYqLzd3yiEeEzYk=w2400?source=screenshot.guru"
+          href="https://lh6.googleusercontent.com/nbdYtVVtJOJSIu0wWe8BvF5Z2cd_c-zLFwee3Da4Z5diJotDvD2hWgZAnsuV4nkHxuE=w2400"
         >
           <img
             style="width: 15%"
-            src="https://lh4.googleusercontent.com/8PWyctVQU5RSLFyLYN6zIfMinxgg57OVYb2sz34OUoCPz6w_GxoLtYqLzd3yiEeEzYk=w800-h800-p"
+            src="https://lh6.googleusercontent.com/nbdYtVVtJOJSIu0wWe8BvF5Z2cd_c-zLFwee3Da4Z5diJotDvD2hWgZAnsuV4nkHxuE=w800"
           />
         </a>
       </div>

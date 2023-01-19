@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 const _ = require("lodash");
 import Transaction from "../models/transactions";
 import User from "../models/user";
+import sendEmail from "../services/email/sendEmail";
 dotenv.config();
 
 const multer = require("multer");
@@ -94,7 +95,34 @@ class TransactionController {
       if (transaction) {
         transaction.status = !transaction.status;
         await transaction.save();
-        return res.status(200).json(transaction);
+        User.findOne({ _id: transaction.userId })
+          .exec()
+          .then((user) => {
+            if (user) {
+              sendEmail({
+                to: user.email,
+                subject: "Transaction Successful",
+                message: `
+                <h1>
+                Easy Pay Transaction Confirmation Email
+                </h1>
+              <div>
+              You, ${user.username} have successfully sent ${
+                  transaction.amount
+                } IN FRSCFA to ${
+                  transaction.receiverName
+                } on ${new Date().toLocaleString()}.
+              </div>
+              `,
+              });
+            }
+            return res.status(200).json(transaction);
+          })
+          .catch((err) => {
+            return res.status(500).json({
+              message: err,
+            });
+          });
       }
     } catch (error) {
       res.status(500).json({
