@@ -18,6 +18,14 @@ const transactionSchema = new mongoose.Schema(
       type: Number,
       required: [true, "amount is required"],
     },
+    receiverNumber: {
+      type: Number,
+      required: [true, "receiverNumber is required"],
+    },
+    receiverName: {
+      type: String,
+      required: [true, "receiverName is required"],
+    },
     status: {
       type: Boolean,
       default: false,
