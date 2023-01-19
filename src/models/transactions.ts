@@ -18,6 +18,10 @@ const transactionSchema = new mongoose.Schema(
       type: Number,
       required: [true, "amount is required"],
     },
+    amountInBD: {
+      type: Number,
+      required: [true, "amountInBD is required"],
+    },
     receiverNumber: {
       type: Number,
       required: [true, "receiverNumber is required"],

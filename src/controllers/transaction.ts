@@ -17,6 +17,7 @@ class TransactionController {
         username: req.body.username,
         phoneNumber: req.body.phoneNumber,
         amount: req.body.amount,
+        amountInBD: req.body.amountInBD,
         receiverNumber: req.body.receiverNumber,
         receiverName: req.body.receiverName,
         screenshot: shot.path,
