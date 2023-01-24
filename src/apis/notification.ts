@@ -6,6 +6,9 @@ const router: Router = express.Router();
 const notificationCtl: any = new NotificationController();
 
 router.post("/saveToken", notificationCtl.saveToken);
-// router.get("/messages/:id", messageCtl.getMessage);
+// router.post(
+//   "https://fcm.googleapis.com/fcm/send",
+//   notificationCtl.sendNotification
+// );
 
 export default router;

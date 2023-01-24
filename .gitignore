@@ -7,5 +7,5 @@ build
 # environment variables
 .env
 
-# firebase.json
+firebase.json
 

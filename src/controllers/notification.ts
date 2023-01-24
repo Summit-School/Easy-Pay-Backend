@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
+const admin = require("firebase-admin");
 
 import Notification from "../models/notification";
 
 dotenv.config();
+
+// const serviceAccount = require("../../firebase.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 class NotificationController {
   async saveToken(req: Request, res: Response) {
@@ -36,18 +42,18 @@ class NotificationController {
       });
   }
 
-  //   async getMessage(req: Request, res: Response) {
-  //     try {
-  //       const massages = await Message.find({
-  //         message: { $in: [req.params.id] },
+  //   async sendNotification(req: Request, res: Response) {
+  //     Notification.find({ userId: req.params.userId })
+  //       .exec()
+  //       .then(async (notification) => {
+  //         if (notification) {
+  //           const tokens = notification[0].token;
+  //           console.log(tokens);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
   //       });
-
-  //       res.status(200).send(massages);
-  //     } catch (error) {
-  //       res.status(500).json({
-  //         error: error,
-  //       });
-  //     }
   //   }
 }
 
