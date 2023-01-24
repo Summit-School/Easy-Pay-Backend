@@ -108,11 +108,17 @@ class TransactionController {
                 Easy Pay Transaction Confirmation Email
                 </h1>
               <div>
-              You, ${user.username} have successfully sent ${
-                  transaction.amount
-                } IN FRSCFA to ${
+              Hello ${user.username}, have successfully sent ${
+                  transaction.amountInBD
+                } Dinar (${transaction.amount} IN FRSCFA) to ${
                   transaction.receiverName
                 } on ${new Date().toLocaleString()}.
+              </div>
+              <div>
+                We thank you for trusting Easy Kings Pay services. We hope to see you again soon.
+              </div>
+              <div>
+                If you have any questions, please do not hesitate to contact us through the application using the chat section support link in the profile section.
               </div>
               `,
               });

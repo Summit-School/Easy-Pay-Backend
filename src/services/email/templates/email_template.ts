@@ -72,7 +72,7 @@ export default function email(subject: string, message: string) {
   <body>
     <div class="wrapper">
       <header>
-        <h4>Easy Pay</h4>
+        <h4>Easy Kings Pay</h4>
         ${subject}
       </header>
       <div class="logo">
@@ -117,7 +117,7 @@ export default function email(subject: string, message: string) {
           <a href="#">Privacy Policy</a> |
           <a href="#">Contact Support</a>
         </p>
-        <p>&copy; 2022 Easy Pay</p>
+        <p>&copy; 2022 Easy Kings Pay</p>
       </footer>
     </div>
   </body>
