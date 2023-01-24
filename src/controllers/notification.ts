@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-const admin = require("firebase-admin");
+// const admin = require("firebase-admin");
 
 import Notification from "../models/notification";
 
 dotenv.config();
 
 // const serviceAccount = require("../../firebase.json");
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
 class NotificationController {
   async saveToken(req: Request, res: Response) {
