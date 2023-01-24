@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 const http = require("http");
 const cors = require("cors");
 import bodyParser = require("body-parser");
+const admin = require("firebase-admin");
 
 import dbConnect from "./configs/db";
 import authAPI from "./apis/auth";
@@ -12,6 +13,13 @@ import popupMessageAPI from "./apis/popup_message";
 import conversationAPI from "./apis/conversation";
 import messageAPI from "./apis/message";
 import transactionAPI from "./apis/transactions";
+import notificationAPI from "./apis/notification";
+
+const serviceAccount = require("../firebase.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 dotenv.config();
 const app = express();
@@ -36,6 +44,7 @@ app.use(`/api/${process.env.API_VERSION}/conversation`, conversationAPI);
 app.use(`/api/${process.env.API_VERSION}/message`, messageAPI);
 app.use(`/api/${process.env.API_VERSION}/popupMessage`, popupMessageAPI);
 app.use(`/api/${process.env.API_VERSION}/transactions`, transactionAPI);
+app.use(`/api/${process.env.API_VERSION}/notification`, notificationAPI);
 
 app.use(authAPI);
 app.use(adminAPI);
@@ -44,6 +53,7 @@ app.use(popupMessageAPI);
 app.use(conversationAPI);
 app.use(messageAPI);
 app.use(transactionAPI);
+app.use(notificationAPI);
 
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {
