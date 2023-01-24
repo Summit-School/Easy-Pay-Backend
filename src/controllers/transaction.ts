@@ -114,11 +114,13 @@ class TransactionController {
                   transaction.receiverName
                 } on ${new Date().toLocaleString()}.
               </div>
+              <br/>
               <div>
                 We thank you for trusting Easy Kings Pay services. We hope to see you again soon.
               </div>
+              <br/>
               <div>
-                If you have any questions, please do not hesitate to contact us through the application using the chat section support link in the profile section.
+                If you have any questions, please do not hesitate to contact us through the application using the chat section or the support link in the profile section.
               </div>
               `,
               });
