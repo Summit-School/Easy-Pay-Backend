@@ -72,7 +72,7 @@ export default function email(subject: string, message: string) {
   <body>
     <div class="wrapper">
       <header>
-        <h4>Easy Kings Pay</h4>
+        <h2>Easy Kings Pay</h2>
         ${subject}
       </header>
       <div class="logo">
@@ -81,7 +81,7 @@ export default function email(subject: string, message: string) {
           href="https://lh3.googleusercontent.com/9mnpqsUwcKYqK3nhF1RszuJYbGdCqv18fGKcV7HTtxpUCAsco8WHyaw1r0DgvHAScEg=w2400?source=screenshot.guru"
         >
           <img
-            style="width: 15%"
+            style="width: 25%"
             src="https://lh3.googleusercontent.com/9mnpqsUwcKYqK3nhF1RszuJYbGdCqv18fGKcV7HTtxpUCAsco8WHyaw1r0DgvHAScEg=w800-h800-p"
           />
         </a>
@@ -113,11 +113,11 @@ export default function email(subject: string, message: string) {
           </div>
         </div> -->
       <footer>
-        <p>
-          <a href="#">Privacy Policy</a> |
-          <a href="#">Contact Support</a>
-        </p>
-        <p>&copy; 2022 Easy Kings Pay</p>
+        // <p>
+        //   <a href="#">Privacy Policy</a> |
+        //   <a href="#">Contact Support</a>
+        // </p>
+        <p>&copy; 2023 Easy Kings Pay</p>
       </footer>
     </div>
   </body>
