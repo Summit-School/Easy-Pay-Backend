@@ -108,9 +108,9 @@ class TransactionController {
                 Easy Pay Transaction Confirmation Email
                 </h1>
               <div>
-              Hello ${user.username}, have successfully sent ${
+              Hello ${user.username}, you have successfully sent ${
                   transaction.amountInBD
-                } Dinar (${transaction.amount} IN FRSCFA) to ${
+                } Bahraini Dinar (${transaction.amount} IN FRSCFA) to ${
                   transaction.receiverName
                 } on ${new Date().toLocaleString()}.
               </div>
