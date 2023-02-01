@@ -113,10 +113,10 @@ export default function email(subject: string, message: string) {
           </div>
         </div> -->
       <footer>
-        // <p>
-        //   <a href="#">Privacy Policy</a> |
-        //   <a href="#">Contact Support</a>
-        // </p>
+      <!-- <p>
+          <a href="#">Privacy Policy</a> |
+          <a href="#">Contact Support</a>
+        </p> -->
         <p>&copy; 2023 Easy Kings Pay</p>
       </footer>
     </div>
