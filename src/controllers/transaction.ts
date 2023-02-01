@@ -102,10 +102,10 @@ class TransactionController {
             if (user) {
               sendEmail({
                 to: user.email,
-                subject: "Transaction Successful",
+                subject: "Transaction Confirmation Email",
                 message: `
                 <h1>
-                Easy Pay Transaction Confirmation Email
+                Transaction Successful 
                 </h1>
               <div>
               Hello ${user.username}, you have successfully sent ${
