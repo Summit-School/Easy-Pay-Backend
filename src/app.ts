@@ -12,7 +12,7 @@ import popupMessageAPI from "./apis/popup_message";
 import conversationAPI from "./apis/conversation";
 import messageAPI from "./apis/message";
 import transactionAPI from "./apis/transactions";
-import notificationAPI from "./apis/notification";
+// import notificationAPI from "./apis/notification";
 
 dotenv.config();
 const app = express();
