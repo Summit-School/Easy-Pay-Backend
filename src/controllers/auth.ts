@@ -248,10 +248,7 @@ class AuthController {
                   userId: user[0]._id,
                   username: user[0].username,
                 },
-                process.env.JWT_SECRET as string,
-                {
-                  expiresIn: "1h",
-                }
+                process.env.JWT_SECRET as string
               );
               return res.status(200).json({
                 message: "Login Successful",
