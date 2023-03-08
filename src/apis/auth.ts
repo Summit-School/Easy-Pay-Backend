@@ -16,6 +16,6 @@ router.put("/update_password/:id", authCtl.updatePassword);
 router.post("/forgot_password", authCtl.forgotPassword);
 router.post("/reset_password", authCtl.resetPassword);
 router.delete("/delete_user/:id", authCtl.deleteone);
-router.put("/new_password", authCtl.newPassword);
+router.put("/new_password/:id", authCtl.newPassword);
 
 export default router;
