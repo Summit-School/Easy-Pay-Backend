@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import Message from "../models/message";
 
 import { sendNotification } from "../services/push_notification/notification";
+import { sendPushNotification } from "../services/push_notification/expo.notification";
 
 dotenv.config();
 

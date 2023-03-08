@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 const http = require("http");
 const cors = require("cors");
 import bodyParser = require("body-parser");
+import { sendPushNotification } from "./services/push_notification/expo.notification";
 
 import dbConnect from "./configs/db";
 import authAPI from "./apis/auth";
@@ -54,6 +55,12 @@ app.use(expoNotificationAPI);
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {
   res.send("Easy Pay Backend. WE MOVE 🚀");
+});
+
+app.post("/testPush", async (req: Request, res: Response) => {
+  return await sendPushNotification({
+    body: "test message",
+  });
 });
 
 const PORT: any = process.env.PORT || 5000;

@@ -37,7 +37,6 @@ class ExpoController {
 
   async getTokens(req: Request, res: Response) {
     try {
-      console.log("hello");
       const tokens = await ExpoTokens.find({});
       res.status(200).send(tokens);
     } catch (error) {
