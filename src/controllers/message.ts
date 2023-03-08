@@ -16,6 +16,10 @@ class MessageController {
 
     try {
       const savedMessage = await newMessage.save();
+      await sendNotification({
+        title: "New Message",
+        description: `New Message Notification`,
+      });
       res.status(200).json(savedMessage);
     } catch (error) {
       res.status(500).json({
@@ -28,10 +32,6 @@ class MessageController {
     try {
       const massages = await Message.find({
         message: { $in: [req.params.id] },
-      });
-      await sendNotification({
-        title: "New Message",
-        description: `You have a new message from a client`,
       });
       res.status(200).send(massages);
     } catch (error) {
