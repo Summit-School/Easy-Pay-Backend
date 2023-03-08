@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 const _ = require("lodash");
+import User from "../models/user";
 import sendEmail from "../services/email/sendEmail";
 
 import Rate from "../models/rate";
@@ -19,7 +20,6 @@ class conversionRateController {
         };
 
         rate = _.extend(rate, newRate);
-
         if (rate) {
           rate.save((err, result: any) => {
             if (err) {
@@ -28,6 +28,30 @@ class conversionRateController {
                 error: err,
               });
             } else {
+              User.find()
+                .sort({ createdAt: -1 })
+                .exec()
+                .then((users) => {
+                  let mailList: Array<String> = [];
+                  users.map((user) => mailList.push(user?.email));
+                  sendEmail({
+                    to: mailList.toString(),
+                    subject: "Rate Updated",
+                    message: `
+                    <div>
+                    Easy Kings Pay updated its exchange rate. 
+                    </div>
+                    <div>
+                    Log into the application to see the new rate.
+                    </div>
+                    `,
+                  });
+                })
+                .catch((err) => {
+                  return res.status(500).json({
+                    message: err,
+                  });
+                });
               return res.status(200).json({
                 message: "Rate Updated",
               });

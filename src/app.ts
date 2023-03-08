@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 const http = require("http");
 const cors = require("cors");
 import bodyParser = require("body-parser");
+import { sendNotification } from "./services/push_notification/notification";
 
 import dbConnect from "./configs/db";
 import authAPI from "./apis/auth";
@@ -51,6 +52,12 @@ app.use(transactionAPI);
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {
   res.send("Easy Pay Backend. WE MOVE 🚀");
+});
+app.post("/test_notification", async (req: Request, res: Response) => {
+  return await sendNotification({
+    title: "placed order",
+    description: `Transaction Initiated`,
+  });
 });
 
 const PORT: any = process.env.PORT || 5000;

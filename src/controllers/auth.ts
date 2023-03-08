@@ -529,6 +529,46 @@ class AuthController {
         });
       });
   }
+
+  newPassword(req: Request, res: Response) {
+    User.findOne({ _id: req.params.id })
+      .exec()
+      .then((user) => {
+        if (user) {
+          const { newPassword } = req.body;
+          bcrypt.hash(newPassword, 10, (error: any, hash: any) => {
+            if (error) {
+              return res.status(500).json({
+                error: error,
+              });
+            }
+            const passwordUpdate = {
+              password: hash,
+            };
+            user = _.extend(user, passwordUpdate);
+            if (user) {
+              user
+                .save()
+                .then((result: any) => {
+                  res.status(200).json({
+                    message: "Password Updated",
+                  });
+                })
+                .catch((error: any) => {
+                  res.status(500).json({
+                    error: error,
+                  });
+                });
+            }
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).json({
+          error: err,
+        });
+      });
+  }
 }
 
 export default AuthController;

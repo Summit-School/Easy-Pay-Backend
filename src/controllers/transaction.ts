@@ -5,6 +5,7 @@ import Transaction from "../models/transactions";
 import User from "../models/user";
 import sendEmail from "../services/email/sendEmail";
 dotenv.config();
+import { sendNotification } from "../services/push_notification/notification";
 
 const multer = require("multer");
 
@@ -26,6 +27,10 @@ class TransactionController {
       try {
         const savedTransaction = await newTransaction.save();
         // res.status(200).json(savedTransaction);
+        await sendNotification({
+          title: "New Transaction Message",
+          description: `Transaction Initiated By ${savedTransaction.username}`,
+        });
         User.findOne({ _id: req.body.userId })
           .exec()
           .then((user) => {
