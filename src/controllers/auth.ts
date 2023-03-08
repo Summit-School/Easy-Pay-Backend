@@ -550,8 +550,19 @@ class AuthController {
               user
                 .save()
                 .then((result: any) => {
+                  const token: string = jwt.sign(
+                    {
+                      userId: result._id,
+                      username: result.username,
+                    },
+                    process.env.JWT_SECRET as string,
+                    {
+                      expiresIn: "1h",
+                    }
+                  );
                   res.status(200).json({
                     message: "Password Updated",
+                    token: token,
                   });
                 })
                 .catch((error: any) => {
