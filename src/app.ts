@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 const http = require("http");
 const cors = require("cors");
 import bodyParser = require("body-parser");
-import { sendNotification } from "./services/push_notification/notification";
 
 import dbConnect from "./configs/db";
 import authAPI from "./apis/auth";
@@ -13,7 +12,7 @@ import popupMessageAPI from "./apis/popup_message";
 import conversationAPI from "./apis/conversation";
 import messageAPI from "./apis/message";
 import transactionAPI from "./apis/transactions";
-// import notificationAPI from "./apis/notification";
+import expoNotificationAPI from "./apis/expo_notification";
 
 dotenv.config();
 const app = express();
@@ -38,7 +37,10 @@ app.use(`/api/${process.env.API_VERSION}/conversation`, conversationAPI);
 app.use(`/api/${process.env.API_VERSION}/message`, messageAPI);
 app.use(`/api/${process.env.API_VERSION}/popupMessage`, popupMessageAPI);
 app.use(`/api/${process.env.API_VERSION}/transactions`, transactionAPI);
-// app.use(`/api/${process.env.API_VERSION}/notification`, notificationAPI);
+app.use(
+  `/api/${process.env.API_VERSION}/expo_notification`,
+  expoNotificationAPI
+);
 
 app.use(authAPI);
 app.use(adminAPI);
@@ -47,17 +49,11 @@ app.use(popupMessageAPI);
 app.use(conversationAPI);
 app.use(messageAPI);
 app.use(transactionAPI);
-// app.use(notificationAPI);
+app.use(expoNotificationAPI);
 
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {
   res.send("Easy Pay Backend. WE MOVE 🚀");
-});
-app.post("/test_notification", async (req: Request, res: Response) => {
-  return await sendNotification({
-    title: "placed order",
-    description: `Transaction Initiated`,
-  });
 });
 
 const PORT: any = process.env.PORT || 5000;
