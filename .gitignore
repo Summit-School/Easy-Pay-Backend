@@ -7,5 +7,9 @@ build
 # environment variables
 .env
 
+# firebase configuration
 firebase.json
+
+# uploaded files
+uploads
 
