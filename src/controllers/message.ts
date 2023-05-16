@@ -10,6 +10,7 @@ dotenv.config();
 
 class MessageController {
   async createMessage(req: Request, res: Response) {
+    console.log("called");
     const newMessage = new Message({
       message: [req.body.sender, req.body.receiver],
       text: req.body.text,
@@ -17,6 +18,7 @@ class MessageController {
 
     try {
       const savedMessage = await newMessage.save();
+      console.log(savedMessage);
       await sendNotification({
         title: "New Message",
         description: `New Message Notification`,
