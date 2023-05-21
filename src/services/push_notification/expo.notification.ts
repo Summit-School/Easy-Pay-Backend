@@ -17,6 +17,7 @@ class pushNotification {
         },
       }
     );
+    console.log(response.data);
     return response.data;
   }
 }
