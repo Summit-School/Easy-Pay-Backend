@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 const _ = require("lodash");
 import Transaction from "../models/transactions";
 import User from "../models/user";
-import sendEmail from "../services/email/sendEmail";
+// import sendEmail from "../services/email/sendEmail";
 dotenv.config();
 import { sendNotification } from "../services/push_notification/notification";
 
@@ -105,30 +105,30 @@ class TransactionController {
           .exec()
           .then((user) => {
             if (user) {
-              sendEmail({
-                to: user.email,
-                subject: "Transaction Confirmation Email",
-                message: `
-                <h1>
-                Transaction Successful 
-                </h1>
-              <div>
-              Hello ${user.username}, you have successfully sent ${
-                  transaction.amountInBD
-                } Bahraini Dinar (${transaction.amount} IN FRSCFA) to ${
-                  transaction.receiverName
-                } on ${new Date().toLocaleString()}.
-              </div>
-              <br/>
-              <div>
-                We thank you for trusting Easy Kings Pay services. We hope to see you again soon.
-              </div>
-              <br/>
-              <div>
-                If you have any questions, please do not hesitate to contact us through the application using the chat section or the support link in the profile section.
-              </div>
-              `,
-              });
+              // sendEmail({
+              //   to: user.email,
+              //   subject: "Transaction Confirmation Email",
+              //   message: `
+              //   <h1>
+              //   Transaction Successful
+              //   </h1>
+              // <div>
+              // Hello ${user.username}, you have successfully sent ${
+              //     transaction.amountInBD
+              //   } Bahraini Dinar (${transaction.amount} IN FRSCFA) to ${
+              //     transaction.receiverName
+              //   } on ${new Date().toLocaleString()}.
+              // </div>
+              // <br/>
+              // <div>
+              //   We thank you for trusting Easy Kings Pay services. We hope to see you again soon.
+              // </div>
+              // <br/>
+              // <div>
+              //   If you have any questions, please do not hesitate to contact us through the application using the chat section or the support link in the profile section.
+              // </div>
+              // `,
+              // });
             }
             return res.status(200).json(transaction);
           })

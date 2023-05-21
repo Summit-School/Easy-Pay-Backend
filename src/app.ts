@@ -13,6 +13,7 @@ import conversationAPI from "./apis/conversation";
 import messageAPI from "./apis/message";
 import transactionAPI from "./apis/transactions";
 import expoNotificationAPI from "./apis/expo_notification";
+import emailAPI from "./apis/email";
 
 dotenv.config();
 const app = express();
@@ -41,6 +42,7 @@ app.use(
   `/api/${process.env.API_VERSION}/expo_notification`,
   expoNotificationAPI
 );
+app.use(`/api/${process.env.API_VERSION}/email`, emailAPI);
 
 app.use(authAPI);
 app.use(adminAPI);
@@ -50,6 +52,7 @@ app.use(conversationAPI);
 app.use(messageAPI);
 app.use(transactionAPI);
 app.use(expoNotificationAPI);
+app.use(emailAPI);
 
 // TEST ROUTE
 app.get("/", (req: Request, res: Response) => {

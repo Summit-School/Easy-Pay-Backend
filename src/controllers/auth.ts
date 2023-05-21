@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 const _ = require("lodash");
-import sendEmail from "../services/email/sendEmail";
+// import sendEmail from "../services/email/sendEmail";
 
 import User from "../models/user";
 const bcrypt = require("bcrypt");
@@ -12,11 +12,11 @@ dotenv.config();
 class AuthController {
   testEmail(req: Request, res: Response) {
     const { to, message } = req.body;
-    sendEmail({
-      to: to,
-      subject: "Email Confirmation",
-      message: message,
-    });
+    // sendEmail({
+    //   to: to,
+    //   subject: "Email Confirmation",
+    //   message: message,
+    // });
     res.send("Done !!");
   }
 
@@ -460,20 +460,20 @@ class AuthController {
           const token = `${resetToken}`;
           const username = `${user.username}`;
 
-          sendEmail({
-            to: user.email,
-            subject: "Reset Password",
-            message: `
-            <div>
-            Hello ${username}, 
-            Copy this token below and submit in the token field to get back into your account. 
-            Don't forget to update your password after this.
-            </div>             
-            <div style="margin-top: 20px">
-            Token: <span style="color:blue">${token}</span>
-            </div>
-            `,
-          });
+          // sendEmail({
+          //   to: user.email,
+          //   subject: "Reset Password",
+          //   message: `
+          //   <div>
+          //   Hello ${username},
+          //   Copy this token below and submit in the token field to get back into your account.
+          //   Don't forget to update your password after this.
+          //   </div>
+          //   <div style="margin-top: 20px">
+          //   Token: <span style="color:blue">${token}</span>
+          //   </div>
+          //   `,
+          // });
 
           return res.status(200).json({
             message: "Email sent",

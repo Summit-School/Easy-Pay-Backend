@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 const _ = require("lodash");
-import sendEmail from "../services/email/sendEmail";
+// import sendEmail from "../services/email/sendEmail";
 
 import Admin from "../models/admin";
 const bcrypt = require("bcrypt");
@@ -226,11 +226,11 @@ class AdminController {
 
           const url = `${process.env.SERVER_URL}/reset_admin_password/${resetToken}`;
 
-          sendEmail({
-            to: admin.email,
-            subject: "Reset Password",
-            message: `Click this link to reset your password: <a href="${url}">${url}</a>`,
-          });
+          // sendEmail({
+          //   to: admin.email,
+          //   subject: "Reset Password",
+          //   message: `Click this link to reset your password: <a href="${url}">${url}</a>`,
+          // });
         } else {
           return res.status(500).json({
             message: "Email does not exist",

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 const _ = require("lodash");
 import User from "../models/user";
-import sendEmail from "../services/email/sendEmail";
+// import sendEmail from "../services/email/sendEmail";
 // import { sendPushNotification } from "../services/push_notification/expo.notification";
 
 import Rate from "../models/rate";
@@ -35,18 +35,18 @@ class conversionRateController {
                 .then((users) => {
                   let mailList: Array<String> = [];
                   users.map((user) => mailList.push(user?.email));
-                  sendEmail({
-                    to: mailList.toString(),
-                    subject: "Rate Updated",
-                    message: `
-                    <div>
-                    Easy Kings Pay updated its exchange rate. 
-                    </div>
-                    <div>
-                    Log into the application to see the new rate.
-                    </div>
-                    `,
-                  });
+                  // sendEmail({
+                  //   to: mailList.toString(),
+                  //   subject: "Rate Updated",
+                  //   message: `
+                  //   <div>
+                  //   Easy Kings Pay updated its exchange rate.
+                  //   </div>
+                  //   <div>
+                  //   Log into the application to see the new rate.
+                  //   </div>
+                  //   `,
+                  // });
                 })
                 .catch((err) => {
                   return res.status(500).json({

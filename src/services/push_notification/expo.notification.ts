@@ -22,6 +22,7 @@ class pushNotification {
   }
 }
 export default pushNotification;
+
 // export async function sendPushNotification(notification: { body: string }) {
 //   let messages = [];
 //   let somePushTokens: Array<any> = [];
