@@ -3,20 +3,17 @@ import axios from "axios";
 // import ExpoTokens from "../../models/expoTokens";
 
 export async function sendPushNotification(data: any) {
-  const response = axios
-    .post("https://exp.host/--/api/v2/push/send", JSON.stringify(data), {
+  const response = axios.post(
+    "https://exp.host/--/api/v2/push/send",
+    JSON.stringify(data),
+    {
       headers: {
         Accept: "application/json",
         "Accept-encoding": "gzip, deflate",
         "Content-Type": "application/json",
       },
-    })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+    }
+  );
 
   // return response;
 
