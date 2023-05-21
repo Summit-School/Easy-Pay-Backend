@@ -1,6 +1,5 @@
 import express, { Router } from "express";
 import ExpoController from "../controllers/expo_notifications";
-import { Request, Response } from "express";
 
 const router: Router = express.Router();
 const exponotifCtl: any = new ExpoController();

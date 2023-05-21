@@ -57,10 +57,8 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Easy Pay Backend. WE MOVE 🚀");
 });
 
-app.post("/testPush", async (req: Request, res: Response) => {
-  return await sendPushNotification({
-    body: "test message",
-  });
+app.post("/sendPushNotification", async (req: Request, res: Response) => {
+  sendPushNotification(req.body);
 });
 
 const PORT: any = process.env.PORT || 5000;
