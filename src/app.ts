@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, Router } from "express";
 import dotenv from "dotenv";
 const http = require("http");
 const cors = require("cors");
@@ -15,6 +15,7 @@ import messageAPI from "./apis/message";
 import transactionAPI from "./apis/transactions";
 import expoNotificationAPI from "./apis/expo_notification";
 
+const router: Router = express.Router();
 dotenv.config();
 const app = express();
 dbConnect();
@@ -57,9 +58,11 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Easy Pay Backend. WE MOVE 🚀");
 });
 
-app.post("/sendPushNotification", async (req: Request, res: Response) => {
-  sendPushNotification(req.body);
-});
+app.use(
+  router.post("/sendPushNotification", async (req: Request, res: Response) => {
+    sendPushNotification(req.body);
+  })
+);
 
 const PORT: any = process.env.PORT || 5000;
 const server = http.createServer(app);
