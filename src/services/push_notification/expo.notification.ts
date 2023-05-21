@@ -1,35 +1,26 @@
 import axios from "axios";
+import { Request, Response } from "express";
 // import { Expo } from "expo-server-sdk";
 // import ExpoTokens from "../../models/expoTokens";
 
-export async function sendPushNotification(data: any) {
-  const response = axios.post(
-    "https://exp.host/--/api/v2/push/send",
-    JSON.stringify(data),
-    {
-      headers: {
-        Accept: "application/json",
-        "Accept-encoding": "gzip, deflate",
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  // return response;
-
-  // await fetch("https://exp.host/--/api/v2/push/getReceipts", {
-  //   method: "POST",
-  //   mode: "cors",
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Access-Control-Allow-Origin": "*",
-  //     "Accept-encoding": "gzip, deflate",
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(message),
-  // });
+class pushNotification {
+  async sendPushNotification(req: Request) {
+    const message = req.body;
+    const response = await axios.post(
+      "https://exp.host/--/api/v2/push/send",
+      JSON.stringify(message),
+      {
+        headers: {
+          Accept: "application/json",
+          "Accept-encoding": "gzip, deflate",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  }
 }
-
+export default pushNotification;
 // export async function sendPushNotification(notification: { body: string }) {
 //   let messages = [];
 //   let somePushTokens: Array<any> = [];

@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 const _ = require("lodash");
 import User from "../models/user";
 import sendEmail from "../services/email/sendEmail";
-import { sendPushNotification } from "../services/push_notification/expo.notification";
+// import { sendPushNotification } from "../services/push_notification/expo.notification";
 
 import Rate from "../models/rate";
 const bcrypt = require("bcrypt");
@@ -53,9 +53,9 @@ class conversionRateController {
                     message: err,
                   });
                 });
-              sendPushNotification({
-                body: "Easy Kings Pay Updated its exchange rate. Click to view new rate",
-              });
+              // sendPushNotification({
+              //   body: "Easy Kings Pay Updated its exchange rate. Click to view new rate",
+              // });
               return res.status(200).json({
                 message: "Rate Updated",
               });
