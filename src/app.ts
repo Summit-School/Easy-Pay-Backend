@@ -59,9 +59,9 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Easy Pay Backend. WE MOVE 🚀");
 });
 
-// setInterval(function () {
-//   app.get("https://easykingspayserver.herokuapp.com/");
-// }, 300000); // every 5 minutes (300000)
+setInterval(function () {
+  app.get("https://easykingspayserver.herokuapp.com/");
+}, 300000); // every 5 minutes (300000)
 
 const PORT: any = process.env.PORT || 5000;
 const server = http.createServer(app);
